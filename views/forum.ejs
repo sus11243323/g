@@ -7,10 +7,9 @@
   <meta name="theme-color" content="#080810">
   <meta name="description" content="Your private community space.">
   <title>Community Forum — Private Community</title>
-  <link rel="stylesheet" href="/style.css?v=20261021-login">
+  <link rel="stylesheet" href="/style.css?v=20261022-admin">
 
   <style>
-    /* Forum layout safety styles */
     .forum-page {
       margin: 0;
       min-height: 100vh;
@@ -356,8 +355,34 @@
     }
 
     .member small {
+      display: block;
       color: #9793ad;
       font-size: 11px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    /* Creator role badge */
+    .admin-creator {
+      display: inline-block;
+      color: #d8b4fe !important;
+      font-weight: 750;
+      text-shadow: 0 0 14px rgba(168,85,247,.22);
+    }
+
+    .profile-card-body .admin-creator {
+      margin-top: 8px;
+      padding: 7px 10px;
+      background: linear-gradient(135deg,rgba(168,85,247,.17),rgba(109,40,217,.08));
+      border: 1px solid rgba(192,132,252,.3);
+      border-radius: 9px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .member small.admin-creator {
+      margin-top: 3px;
+      font-size: 10px;
     }
 
     .online-dot,
@@ -807,7 +832,13 @@
       <div class="profile-card-body">
         <div class="big-avatar"><%= (user.display_name || 'M').slice(0, 1).toUpperCase() %></div>
         <h2><%= user.display_name || 'Member' %></h2>
-        <p class="muted">Community member</p>
+
+        <% if (user.email && user.email.toLowerCase() === 'oliwierkukula4@gmail.com') { %>
+          <p class="muted admin-creator">✦ Forum Administrator · Creator</p>
+        <% } else { %>
+          <p class="muted">Community member</p>
+        <% } %>
+
         <div class="member-status"><span></span> Verified member</div>
       </div>
     </section>
@@ -829,7 +860,12 @@
             <span class="avatar tiny"><%= (member.display_name || 'M').slice(0, 1).toUpperCase() %></span>
             <div>
               <strong><%= member.display_name || 'Member' %></strong>
-              <small>Community member</small>
+
+              <% if (member.email && member.email.toLowerCase() === 'oliwierkukula4@gmail.com') { %>
+                <small class="admin-creator">✦ Forum Administrator · Creator</small>
+              <% } else { %>
+                <small>Community member</small>
+              <% } %>
             </div>
             <span class="online-dot" aria-label="Member"></span>
           </div>
