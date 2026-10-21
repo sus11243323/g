@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Private Community Portal</title><link rel="stylesheet" href="/style.css"></head>
+<body class="portal-page"><div class="top-line"></div><main class="portal-wrap">
+  <div class="portal-brand"><span class="brand-mark">✦</span><span>Private Community Portal</span></div>
+  <section class="portal-card">
+    <% if (inviteValid) { %>
+      <p class="portal-kicker">YOU'RE INVITED</p>
+      <h1 class="portal-title">Your community is waiting.</h1>
+      <p>You've opened a valid invitation. Sign in with Google to activate your membership and enter the private forum.</p>
+    <% } else { %>
+      <p class="portal-kicker">MEMBERS ONLY</p>
+      <h1 class="portal-title">A private space for the community.</h1>
+      <p>This forum is invite-only. If you've been invited, sign in with Google below. New accounts can join only with a valid invitation.</p>
+    <% } %>
+    <% if (message === 'account-not-allowed') { %>
+      <div class="error-panel"><strong>This account has not been added to the server.</strong><p>Contact the administrator at <a href="mailto:oliwierkukula4@gmail.com">oliwierkukula4@gmail.com</a> and tell him about this, or ask if you can get invited.</p></div>
+    <% } else if (message) { %>
+      <div class="error-panel"><strong><%= ({'invite-required':'Invitation required','invite-expired':'Invitation expired','google-login-failed':'Google sign-in failed','invite-already-used':'Invitation already used','account-setup-failed':'Account setup failed'})[message] || 'Something went wrong' %></strong><p><%= ({'invite-required':'Open your personal invitation link first.','invite-expired':'Ask an administrator for a new invitation link.','google-login-failed':'Please try signing in again.','invite-already-used':'This link has already been used. Ask for another invite.','account-setup-failed':'Please contact the administrator at oliwierkukula4@gmail.com.'})[message] || 'Please try again or contact the administrator.' %></p></div>
+    <% } %>
+  </section>
+  <a class="login-button" href="/auth/google"><span class="google-g">G</span><span>If you have been invited to this forum, login with Google</span></a>
+  <p class="fine-print"><span class="secure-dot"></span> Secure Google sign-in · Your password is never shared with this site</p>
+  <div class="portal-foot">PRIVATE COMMUNITY <span>•</span> INVITATION ONLY</div>
+</main></body></html>

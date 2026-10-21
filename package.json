@@ -1,0 +1,23 @@
+{
+  "name": "private-invite-forum",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Invite-only forum with Google OAuth and SQLite",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "invite": "node create-invite.js"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "helmet": "^8.0.0",
+    "express-rate-limit": "^7.5.0"
+  }
+}
