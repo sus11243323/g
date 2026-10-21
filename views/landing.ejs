@@ -7,7 +7,9 @@
   <meta name="theme-color" content="#090811">
   <meta name="description" content="A private, invitation-only community for approved members.">
   <title>Private Community — Members Portal</title>
-  <link rel="stylesheet" href="/style.css?v=3">
+
+  <!-- Updated shared stylesheet; change version when deploying CSS changes -->
+  <link rel="stylesheet" href="/style.css?v=20261021-login">
 </head>
 
 <body class="portal-page">
@@ -74,6 +76,7 @@
               ? 'INVITATION DETECTED'
               : 'MEMBER AUTHENTICATION' %>
           </p>
+
           <h2>
             <%= (typeof inviteValid !== 'undefined' && inviteValid)
               ? 'Welcome to the inside.'
@@ -139,9 +142,7 @@
               <%= errorDescriptions[currentMessage] ||
                 'Please try again or contact the administrator.' %>
             </p>
-            <a href="mailto:oliwierkukula4@gmail.com">
-              Get help ↗
-            </a>
+            <a href="mailto:oliwierkukula4@gmail.com">Get help ↗</a>
           </div>
         </div>
       <% } %>
@@ -178,6 +179,7 @@
             <small>Members-only access</small>
           </span>
         </div>
+
         <div>
           <span class="benefit-icon">✓</span>
           <span>
