@@ -8,18 +8,15 @@
   <meta name="description" content="Your private community space.">
   <title>Community Forum — Private Community</title>
 
-  <!-- The server must expose public/style.css at /style.css -->
   <link rel="stylesheet" href="/style.css?v=2">
 
   <style>
-    /* Small safety styles so the forum remains readable if the external
-       stylesheet fails to load. The full design belongs in style.css. */
     .forum-page { margin: 0; min-height: 100vh; }
     .forum-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
     .small-brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
     .brand-sub { display: block; font-size: 10px; letter-spacing: .14em; opacity: .65; }
     .profile { display: flex; align-items: center; gap: 12px; }
-    .profile-name small { display: block; opacity: .65; }
+    .profile-name { font-weight: 600; }
     .forum-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; max-width: 1250px; margin: 0 auto; padding: 28px 20px; }
     .feed, .sidebar { min-width: 0; }
     .welcome-banner, .stat-card, .composer, .post, .side-card, .empty-state { border: 1px solid rgba(255,255,255,.1); border-radius: 16px; padding: 20px; margin-bottom: 18px; }
@@ -43,20 +40,21 @@
     .profile img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
     .member { display: flex; align-items: center; gap: 10px; margin: 14px 0; min-width: 0; }
     .member > div { flex: 1; min-width: 0; }
-    .member strong, .member small { display: block; overflow-wrap: anywhere; }
-    .member small { opacity: .65; }
+    .member strong { display: block; overflow-wrap: anywhere; }
     .online-dot, .member-status span { display: inline-block; width: 7px; height: 7px; background: #4ade80; border-radius: 50%; }
     .side-footer { text-align: center; opacity: .6; font-size: 10px; letter-spacing: .12em; padding: 16px 0; }
     .primary-button, .ghost-button, .like-button, .delete-button, .search-form button { cursor: pointer; }
     .primary-button.full { width: 100%; }
     .notice { padding: 12px 14px; border: 1px solid rgba(251,113,133,.35); border-radius: 12px; }
     .category-pill { font-size: 11px; }
+
     @media (max-width: 850px) {
       .forum-layout { grid-template-columns: minmax(0,1fr); }
       .sidebar { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-items: start; gap: 14px; }
       .side-card { margin-bottom: 0; }
       .side-footer { grid-column: 1/-1; }
     }
+
     @media (max-width: 560px) {
       .forum-header { align-items: flex-start; flex-wrap: wrap; padding: 14px; }
       .profile { width: 100%; flex-wrap: wrap; }
@@ -86,12 +84,11 @@
     <% if (user.avatar_url) { %>
       <img src="<%= user.avatar_url %>" alt="Profile avatar">
     <% } else { %>
-      <span class="profile-fallback"><%= (user.display_name || '?').slice(0, 1).toUpperCase() %></span>
+      <span class="profile-fallback"><%= (user.display_name || 'M').slice(0, 1).toUpperCase() %></span>
     <% } %>
 
     <span class="profile-name">
-      <%= user.display_name %>
-      <small><%= user.email %></small>
+      <%= user.display_name || 'Member' %>
     </span>
 
     <form method="post" action="/logout">
@@ -132,7 +129,7 @@
 
     <form class="composer" method="post" action="/posts">
       <div class="composer-heading">
-        <div class="composer-avatar"><%= (user.display_name || '?').slice(0, 1).toUpperCase() %></div>
+        <div class="composer-avatar"><%= (user.display_name || 'M').slice(0, 1).toUpperCase() %></div>
         <div>
           <label for="body">Start a discussion</label>
           <p>Share something with your community.</p>
@@ -200,10 +197,10 @@
     <% posts.forEach(post => { %>
       <article class="post">
         <div class="post-top">
-          <div class="avatar"><%= (post.display_name || '?').slice(0, 1).toUpperCase() %></div>
+          <div class="avatar"><%= (post.display_name || 'M').slice(0, 1).toUpperCase() %></div>
 
           <div class="post-author">
-            <strong><%= post.display_name %></strong>
+            <strong><%= post.display_name || 'Member' %></strong>
             <span><%= post.created_at %></span>
           </div>
 
@@ -236,9 +233,9 @@
     <section class="side-card profile-card">
       <div class="profile-cover"></div>
       <div class="profile-card-body">
-        <div class="big-avatar"><%= (user.display_name || '?').slice(0, 1).toUpperCase() %></div>
-        <h2><%= user.display_name %></h2>
-        <p><%= user.email %></p>
+        <div class="big-avatar"><%= (user.display_name || 'M').slice(0, 1).toUpperCase() %></div>
+        <h2><%= user.display_name || 'Member' %></h2>
+        <p class="muted">Community member</p>
         <div class="member-status"><span></span> Verified member</div>
       </div>
     </section>
@@ -257,10 +254,10 @@
       <div class="member-list">
         <% members.slice(0, 8).forEach(member => { %>
           <div class="member">
-            <span class="avatar tiny"><%= (member.display_name || '?').slice(0, 1).toUpperCase() %></span>
+            <span class="avatar tiny"><%= (member.display_name || 'M').slice(0, 1).toUpperCase() %></span>
             <div>
-              <strong><%= member.display_name %></strong>
-              <small><%= member.email %></small>
+              <strong><%= member.display_name || 'Member' %></strong>
+              <small>Community member</small>
             </div>
             <span class="online-dot" aria-label="Member"></span>
           </div>
