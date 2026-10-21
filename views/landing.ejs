@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#090811">
   <meta name="description" content="A private, invitation-only community for approved members.">
   <title>Private Community — Members Portal</title>
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/style.css?v=3">
 </head>
 
 <body class="portal-page">
@@ -45,7 +45,7 @@
         <span class="portal-kicker-line"></span>
       </p>
 
-      <% if (inviteValid) { %>
+      <% if (typeof inviteValid !== 'undefined' && inviteValid) { %>
         <h1 class="portal-title">
           Your invitation.<br>
           <span>Your next chapter.</span>
@@ -70,10 +70,14 @@
       <div class="portal-card-top">
         <div>
           <p class="portal-card-eyebrow">
-            <%= inviteValid ? 'INVITATION DETECTED' : 'MEMBER AUTHENTICATION' %>
+            <%= (typeof inviteValid !== 'undefined' && inviteValid)
+              ? 'INVITATION DETECTED'
+              : 'MEMBER AUTHENTICATION' %>
           </p>
           <h2>
-            <%= inviteValid ? 'Welcome to the inside.' : 'Enter your private space.' %>
+            <%= (typeof inviteValid !== 'undefined' && inviteValid)
+              ? 'Welcome to the inside.'
+              : 'Enter your private space.' %>
           </h2>
         </div>
 
@@ -89,7 +93,28 @@
         </span>
       </div>
 
-      <% if (message === 'account-not-allowed') { %>
+      <%
+        const currentMessage =
+          typeof message !== 'undefined' ? message : null;
+
+        const errorTitles = {
+          'invite-required': 'An invitation is required',
+          'invite-expired': 'This invitation has expired',
+          'google-login-failed': 'Google sign-in failed',
+          'invite-already-used': 'This invitation was already used',
+          'account-setup-failed': 'We couldn’t set up your account'
+        };
+
+        const errorDescriptions = {
+          'invite-required': 'Open your personal invitation link before signing in.',
+          'invite-expired': 'Ask the administrator for a fresh invitation.',
+          'google-login-failed': 'Please try again. If the issue continues, contact the administrator.',
+          'invite-already-used': 'This invitation has already been used. Request another invite.',
+          'account-setup-failed': 'Please contact the administrator for assistance.'
+        };
+      %>
+
+      <% if (currentMessage === 'account-not-allowed') { %>
         <div class="error-panel" role="alert">
           <div class="error-icon">!</div>
           <div>
@@ -103,27 +128,16 @@
             </a>
           </div>
         </div>
-      <% } else if (message) { %>
+      <% } else if (currentMessage) { %>
         <div class="error-panel" role="alert">
           <div class="error-icon">!</div>
           <div>
             <strong>
-              <%= ({
-                'invite-required': 'An invitation is required',
-                'invite-expired': 'This invitation has expired',
-                'google-login-failed': 'Google sign-in failed',
-                'invite-already-used': 'This invitation was already used',
-                'account-setup-failed': 'We couldn’t set up your account'
-              })[message] || 'Something went wrong' %>
+              <%= errorTitles[currentMessage] || 'Something went wrong' %>
             </strong>
             <p>
-              <%= ({
-                'invite-required': 'Open your personal invitation link before signing in.',
-                'invite-expired': 'Ask the administrator for a fresh invitation.',
-                'google-login-failed': 'Please try again. If the issue continues, contact the administrator.',
-                'invite-already-used': 'This invitation has already been used. Request another invite.',
-                'account-setup-failed': 'Please contact the administrator for assistance.'
-              })[message] || 'Please try again or contact the administrator.' %>
+              <%= errorDescriptions[currentMessage] ||
+                'Please try again or contact the administrator.' %>
             </p>
             <a href="mailto:oliwierkukula4@gmail.com">
               Get help ↗
