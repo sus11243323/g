@@ -1,24 +1,198 @@
+
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Private Community Portal</title><link rel="stylesheet" href="/style.css"></head>
-<body class="portal-page"><div class="top-line"></div><main class="portal-wrap">
-  <div class="portal-brand"><span class="brand-mark">✦</span><span>Private Community Portal</span></div>
-  <section class="portal-card">
-    <% if (inviteValid) { %>
-      <p class="portal-kicker">YOU'RE INVITED</p>
-      <h1 class="portal-title">You're in the right place .</h1>
-      <p>You've opened a valid invitation. Sign in with Google to activate your membership and enter the private forum.</p>
-    <% } else { %>
-      <p class="portal-kicker">MEMBERS ONLY</p>
-      <h1 class="portal-title">A private space for the community.</h1>
-      <p>This forum is invite-only. If you've been invited, sign in with Google below. New accounts can join only with a valid invitation.</p>
-    <% } %>
-    <% if (message === 'account-not-allowed') { %>
-      <div class="error-panel"><strong>This account has not been added to the server.</strong><p>Contact the administrator at <a href="mailto:oliwierkukula4@gmail.com">oliwierkukula4@gmail.com</a> and tell him about this, or ask if you can get invited.</p></div>
-    <% } else if (message) { %>
-      <div class="error-panel"><strong><%= ({'invite-required':'Invitation required','invite-expired':'Invitation expired','google-login-failed':'Google sign-in failed','invite-already-used':'Invitation already used','account-setup-failed':'Account setup failed'})[message] || 'Something went wrong' %></strong><p><%= ({'invite-required':'Open your personal invitation link first.','invite-expired':'Ask an administrator for a new invitation link.','google-login-failed':'Please try signing in again.','invite-already-used':'This link has already been used. Ask for another invite.','account-setup-failed':'Please contact the administrator at oliwierkukula4@gmail.com.'})[message] || 'Please try again or contact the administrator.' %></p></div>
-    <% } %>
-  </section>
-  <a class="login-button" href="/auth/google"><span class="google-g">G</span><span>If you have been invited to this forum, login with Google</span></a>
-  <p class="fine-print"><span class="secure-dot"></span> Secure Google sign-in · Your password is never shared with this site</p>
-  <div class="portal-foot">PRIVATE COMMUNITY <span>•</span> INVITATION ONLY</div>
-</main></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090811">
+  <meta name="description" content="A private, invitation-only community for approved members.">
+  <title>Private Community — Members Portal</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body class="portal-page">
+  <div class="portal-background" aria-hidden="true">
+    <div class="portal-glow portal-glow-one"></div>
+    <div class="portal-glow portal-glow-two"></div>
+    <div class="portal-grid"></div>
+    <div class="portal-stars"></div>
+  </div>
+
+  <header class="portal-header">
+    <a class="portal-brand" href="/" aria-label="Private Community home">
+      <span class="brand-mark">✦</span>
+      <span class="portal-brand-copy">
+        <strong>Private Community</strong>
+        <small>MEMBERS NETWORK</small>
+      </span>
+    </a>
+
+    <div class="portal-header-status">
+      <span class="portal-status-dot"></span>
+      PRIVATE ACCESS
+    </div>
+  </header>
+
+  <main class="portal-wrap">
+    <div class="portal-intro">
+      <div class="portal-emblem">
+        <div class="portal-emblem-inner">✦</div>
+      </div>
+
+      <p class="portal-kicker">
+        <span class="portal-kicker-line"></span>
+        YOUR COMMUNITY AWAITS
+        <span class="portal-kicker-line"></span>
+      </p>
+
+      <% if (inviteValid) { %>
+        <h1 class="portal-title">
+          Your invitation.<br>
+          <span>Your next chapter.</span>
+        </h1>
+        <p class="portal-description">
+          You've got an invitation to join. Sign in securely with Google
+          to activate your membership and enter the community.
+        </p>
+      <% } else { %>
+        <h1 class="portal-title">
+          Not everyone gets in.<br>
+          <span>That's the point.</span>
+        </h1>
+        <p class="portal-description">
+          A private place for meaningful conversations, trusted members
+          and a community that feels different.
+        </p>
+      <% } %>
+    </div>
+
+    <section class="portal-card">
+      <div class="portal-card-top">
+        <div>
+          <p class="portal-card-eyebrow">
+            <%= inviteValid ? 'INVITATION DETECTED' : 'MEMBER AUTHENTICATION' %>
+          </p>
+          <h2>
+            <%= inviteValid ? 'Welcome to the inside.' : 'Enter your private space.' %>
+          </h2>
+        </div>
+
+        <span class="portal-lock" aria-label="Protected access">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="5" y="10" width="14" height="11" rx="3"
+              stroke="currentColor" stroke-width="1.6"/>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"
+              stroke="currentColor" stroke-width="1.6"
+              stroke-linecap="round"/>
+            <circle cx="12" cy="15" r="1.3" fill="currentColor"/>
+          </svg>
+        </span>
+      </div>
+
+      <% if (message === 'account-not-allowed') { %>
+        <div class="error-panel" role="alert">
+          <div class="error-icon">!</div>
+          <div>
+            <strong>This account hasn't been approved yet.</strong>
+            <p>
+              Your Google account isn't on the member list.
+              Contact the administrator to request access or an invitation.
+            </p>
+            <a href="mailto:oliwierkukula4@gmail.com">
+              Contact administrator ↗
+            </a>
+          </div>
+        </div>
+      <% } else if (message) { %>
+        <div class="error-panel" role="alert">
+          <div class="error-icon">!</div>
+          <div>
+            <strong>
+              <%= ({
+                'invite-required': 'An invitation is required',
+                'invite-expired': 'This invitation has expired',
+                'google-login-failed': 'Google sign-in failed',
+                'invite-already-used': 'This invitation was already used',
+                'account-setup-failed': 'We couldn’t set up your account'
+              })[message] || 'Something went wrong' %>
+            </strong>
+            <p>
+              <%= ({
+                'invite-required': 'Open your personal invitation link before signing in.',
+                'invite-expired': 'Ask the administrator for a fresh invitation.',
+                'google-login-failed': 'Please try again. If the issue continues, contact the administrator.',
+                'invite-already-used': 'This invitation has already been used. Request another invite.',
+                'account-setup-failed': 'Please contact the administrator for assistance.'
+              })[message] || 'Please try again or contact the administrator.' %>
+            </p>
+            <a href="mailto:oliwierkukula4@gmail.com">
+              Get help ↗
+            </a>
+          </div>
+        </div>
+      <% } %>
+
+      <a class="login-button" href="/auth/google">
+        <span class="google-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" transform="translate(0 4) scale(1 .83)"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.76 7.18l7.73 6C44.42 37.99 46.98 31.8 46.98 24.55z"/>
+            <path fill="#FBBC05" d="M10.53 28.59a14.4 14.4 0 0 1 0-9.18l-7.98-6.19a24 24 0 0 0 0 21.56l7.98-6.19z" transform="translate(0 4) scale(1 .83)"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.8l-7.73-6c-2.15 1.45-4.92 2.3-8.18 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" transform="translate(0 -4) scale(1 .83)"/>
+          </svg>
+        </span>
+
+        <span class="login-button-copy">
+          <strong>Continue with Google</strong>
+          <small>Fast, secure authentication</small>
+        </span>
+
+        <span class="login-arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <div class="portal-divider">
+        <span></span>
+        <p>BUILT AROUND TRUST</p>
+        <span></span>
+      </div>
+
+      <div class="portal-benefits">
+        <div>
+          <span class="benefit-icon">◇</span>
+          <span>
+            <strong>Private by design</strong>
+            <small>Members-only access</small>
+          </span>
+        </div>
+        <div>
+          <span class="benefit-icon">✓</span>
+          <span>
+            <strong>Verified identity</strong>
+            <small>Google authentication</small>
+          </span>
+        </div>
+      </div>
+
+      <p class="portal-security">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="5" y="10" width="14" height="11" rx="3"
+            stroke="currentColor" stroke-width="1.6"/>
+          <path d="M8 10V7a4 4 0 0 1 8 0v3"
+            stroke="currentColor" stroke-width="1.6"/>
+        </svg>
+        Your Google password is never shared with this website.
+      </p>
+    </section>
+
+    <div class="portal-bottom">
+      <div class="portal-bottom-line"></div>
+      <p>AN INVITATION-ONLY COMMUNITY</p>
+      <span>© <%= new Date().getFullYear() %> PRIVATE COMMUNITY</span>
+    </div>
+  </main>
+
+  <script>
+    document.documentElement.classList.add('portal-ready');
+  </script>
+</body>
+</html>
